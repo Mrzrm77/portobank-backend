@@ -14,32 +14,17 @@ use App\Http\Controllers\Api\V1\User\CertificationController;
 use App\Http\Controllers\Api\V1\User\SkillController;
 use App\Http\Controllers\Api\V1\Public\PublicPortfolioController;
 
-Route::post(
-    '/register',
-    RegisterController::class
-);
-
-Route::post(
-    '/login',
-    LoginController::class
-);
+// Auth
+Route::post('/register',RegisterController::class);
+Route::post('/login',LoginController::class);
 
 // public
 
-Route::get(
-    '/portfolio/{username}',
-    [PublicPortfolioController::class, 'show']
-);
-
-Route::get(
-    '/portfolio/{username}/projects',
-    [PublicPortfolioController::class, 'projects']
-);
-
-Route::get(
-    '/portfolio/{username}/projects/{projectId}',
-    [PublicPortfolioController::class, 'projectDetail']
-);
+Route::get('/portfolio/{username}',[PublicPortfolioController::class, 'show']);
+Route::get('/portfolio/{username}/projects',[PublicPortfolioController::class, 'projects']);
+Route::get('/portfolio/{username}/projects/{projectId}',[PublicPortfolioController::class, 'projectDetail']);
+Route::get('/portfolio/{username}/certificates',[PublicPortfolioController::class, 'certificates']);
+Route::get('/portfolio/{username}/certificates/{certificateId}',[PublicPortfolioController::class, 'certificateDetail']);
 
 Route::middleware('auth:sanctum')->group(function (){
     Route::post(

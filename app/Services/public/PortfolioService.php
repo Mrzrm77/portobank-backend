@@ -66,4 +66,35 @@ class PortfolioService
                 $projectId
             );
     }
+    public function getCertificates(
+        string $username
+    ) {
+
+        $profile =
+            $this->repo
+                ->findPublicProfile(
+                    $username
+                );
+
+        return $this->repo
+            ->getCertificates($profile);
+    }
+
+    public function getCertificateDetail(
+        string $username,
+        int $certificateId
+    ) {
+
+        $profile =
+            $this->repo
+                ->findPublicProfile(
+                    $username
+                );
+
+        return $this->repo
+            ->findCertificate(
+                $profile,
+                $certificateId
+            );
+    }
 }

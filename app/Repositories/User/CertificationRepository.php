@@ -8,11 +8,11 @@ use App\Models\User;
 class CertificationRepository
 {
   public function getByUser( User $user){
-    return $user->Certifications()->latest()->get();
+    return $user->certifications()->latest()->get();
   }
 
   public function create(User $user, array $data){
-    return $user->Certifications()->create($data);
+    return $user->certifications()->create($data);
   }
 
   public function update(Certification $certification, array $data){

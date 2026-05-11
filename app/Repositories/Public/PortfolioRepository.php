@@ -42,4 +42,28 @@ class PortfolioRepository
             ->firstOrFail();
 
     }
+
+    
+    public function getCertificates(
+        Profile $profile
+    ) {
+
+        return $profile->user
+            ->certifications()
+            ->latest()
+            ->get();
+
+    }
+
+    public function findCertificate(
+        Profile $profile,
+        int $certificateId
+    ) {
+
+        return $profile->user
+            ->certifications()
+            ->where('id', $certificateId)
+            ->firstOrFail();
+
+    }
 }

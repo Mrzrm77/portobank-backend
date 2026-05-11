@@ -60,4 +60,40 @@ class PublicPortfolioController extends Controller
 
         ]);
     }
+
+    public function certificates(
+        string $username,
+        PortfolioService $service
+    ) {
+
+        return response()->json([
+
+            'success' => true,
+
+            'data' =>
+                $service->getCertificates(
+                    $username
+                )
+
+        ]);
+    }
+
+    public function certificateDetail(
+        string $username,
+        int $certificateId,
+        PortfolioService $service
+    ) {
+
+        return response()->json([
+
+            'success' => true,
+
+            'data' =>
+                $service->getCertificateDetail(
+                    $username,
+                    $certificateId
+                )
+
+        ]);
+    }
 }
