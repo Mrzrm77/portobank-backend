@@ -26,4 +26,8 @@ class Profile extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+
+    public function skills(){
+        return $this->belongsToMany(Skill::class, 'profile_skills');
+    }
 }

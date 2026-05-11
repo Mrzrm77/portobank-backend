@@ -24,10 +24,12 @@ class PortfolioService
                     $username
                 );
 
+        $profile->skills;
+
         return $profile->load([
-            'user.projects',
             'user.educations',
             'user.experiences',
+            'user.projects',
             'user.socialLinks',
             'user.certifications'
         ]);

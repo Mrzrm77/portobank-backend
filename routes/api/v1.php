@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\V1\User\EducationController;
 use App\Http\Controllers\Api\V1\User\ExperienceController;
 use App\Http\Controllers\Api\V1\User\SocialLinkController;
 use App\Http\Controllers\Api\V1\User\CertificationController;
+use App\Http\Controllers\Api\V1\User\SkillController;
 use App\Http\Controllers\Api\V1\Public\PublicPortfolioController;
 
 Route::post(
@@ -103,6 +104,10 @@ Route::middleware('auth:sanctum', 'active.user')
         Route::delete('/certifications/{id}', [CertificationController::class, 'destroy']);
         Route::post('/certifications/{id}/upload',[CertificationController::class, 'uploadImage']);
 
+        // skill
+        Route::get('/skills', [SkillController::class, 'index']);
+        Route::post('/skills', [SkillController::class, 'store']);
+        Route::delete('/skills/{id}', [SkillController::class, 'destroy']);
         
 
         // Admin
