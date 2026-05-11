@@ -18,14 +18,14 @@ class CertificationRepository
   public function update(Certification $certification, array $data){
     $certification->update($data);
 
-    return $certification;
+    return $certification->fresh();
   }
 
   public function delete(Certification $certification){
     return $certification->delete();
   }
 
-  public function findById($id){
-    return Certification::findOrFail($id);
+  public function findById($user, $id){
+    return $user->certifications()->findOrFail($id);
   }
 }

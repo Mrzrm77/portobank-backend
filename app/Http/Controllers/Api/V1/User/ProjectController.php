@@ -203,7 +203,6 @@ class ProjectController
         int $imageId
     ) {
 
-        // dd($request->validated());
         $data = $request->validated();
         $image = $projectService
             ->updateProjectImage(

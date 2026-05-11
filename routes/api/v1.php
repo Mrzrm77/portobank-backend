@@ -101,6 +101,7 @@ Route::middleware('auth:sanctum', 'active.user')
         Route::post('/certifications', [CertificationController::class, 'store']);
         Route::patch('/certifications/{id}', [CertificationController::class, 'update']);
         Route::delete('/certifications/{id}', [CertificationController::class, 'destroy']);
+        Route::post('/certifications/{id}/upload',[CertificationController::class, 'uploadImage']);
 
         
 

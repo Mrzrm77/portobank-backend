@@ -5,7 +5,7 @@ namespace App\Http\Requests\User\Certification;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreCertificationRequest extends FormRequest
+class UploadCertificationImageRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,9 +23,12 @@ class StoreCertificationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string|max:255',
-            'certificate_url' => 'nullable|string|max:255',
-            'Description'=> 'nullable'
+            'certificate'=>[
+                'required',
+                'image',
+                'mimes:jpg,jpeg,png,webp',
+                'max:4096'
+            ]
         ];
     }
 }
