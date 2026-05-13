@@ -30,4 +30,9 @@ class Profile extends Model
     public function skills(){
         return $this->belongsToMany(Skill::class, 'profile_skills');
     }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
 }

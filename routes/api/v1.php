@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\V1\User\ExperienceController;
 use App\Http\Controllers\Api\V1\User\SocialLinkController;
 use App\Http\Controllers\Api\V1\User\CertificationController;
 use App\Http\Controllers\Api\V1\User\SkillController;
+use App\Http\Controllers\Api\V1\User\LikeController;
 use App\Http\Controllers\Api\V1\Public\PublicPortfolioController;
 
 // Auth
@@ -25,6 +26,8 @@ Route::get('/portfolio/{username}/projects',[PublicPortfolioController::class, '
 Route::get('/portfolio/{username}/projects/{projectId}',[PublicPortfolioController::class, 'projectDetail']);
 Route::get('/portfolio/{username}/certificates',[PublicPortfolioController::class, 'certificates']);
 Route::get('/portfolio/{username}/certificates/{certificateId}',[PublicPortfolioController::class, 'certificateDetail']);
+Route::get('/profiles/{username}/likes',[LikeController::class, 'stats']);
+
 
 Route::middleware('auth:sanctum')->group(function (){
     Route::post(
@@ -93,6 +96,11 @@ Route::middleware('auth:sanctum', 'active.user')
         Route::get('/skills', [SkillController::class, 'index']);
         Route::post('/skills', [SkillController::class, 'store']);
         Route::delete('/skills/{id}', [SkillController::class, 'destroy']);
+
+        // Likes
+        Route::get('/profiles/{username}/likes',[LikeController::class, 'stats']);
+        Route::post('/profiles/{username}/like',[LikeController::class, 'like']);
+        Route::delete('/profiles/{username}/like',[LikeController::class, 'unlike']);
         
 
         // Admin
