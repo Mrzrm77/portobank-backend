@@ -14,10 +14,23 @@ use App\Http\Controllers\Api\V1\User\CertificationController;
 use App\Http\Controllers\Api\V1\User\SkillController;
 use App\Http\Controllers\Api\V1\User\LikeController;
 use App\Http\Controllers\Api\V1\Public\PublicPortfolioController;
+use App\Http\Controllers\Api\V1\Auth\ForgotPasswordController;
+use App\Http\Controllers\Api\V1\Auth\ResetPasswordController;
+use App\Http\Controllers\Api\V1\User\MessageController;
+use App\Http\Controllers\Api\V1\SkillCategoryController;
+use App\Http\Controllers\Api\V1\ReportController;
+use App\Http\Controllers\Api\V1\SearchController;
+use App\Http\Controllers\Api\V1\NotificationController;
+use App\Http\Controllers\Api\V1\DashboardController;
+use App\Http\Controllers\Api\V1\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Api\V1\Admin\PortfolioController as AdminPortfolioController;
+use App\Http\Controllers\Api\V1\Admin\AdminLogController;
 
 // Auth
 Route::post('/register',RegisterController::class);
 Route::post('/login',LoginController::class);
+Route::post('/forgot-password', ForgotPasswordController::class);
+Route::post('/reset-password', ResetPasswordController::class);
 
 // public
 
