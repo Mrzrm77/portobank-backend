@@ -62,6 +62,8 @@ Route::middleware('auth:sanctum', 'active.user')
         // User 
         Route::get('/profile', [ProfileController::class, 'show']);
         Route::patch('/profile/update', [ProfileController::class, 'update']);
+        Route::patch('/profile/password', [ProfileController::class, 'changePassword']);
+        Route::delete('/account', [ProfileController::class, 'destroy']);
         // upload avatar
         Route::post('/profile/avatar',[ProfileController::class, 'uploadAvatar']);
         Route::delete('/profile/avatar',[ProfileController::class, 'deleteAvatar']);

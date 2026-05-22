@@ -14,6 +14,28 @@ class ProfileService {
 
   }
 
+  public function changePassword($user, string $password)
+  {
+      $user->password = $password;
+      $user->save();
+
+      return $user;
+  }
+
+  public function deleteAccount($user)
+  {
+      $profile = $user->profile;
+
+      if ($profile && $profile->avatar_url) {
+          Storage::disk('public')->delete($profile->avatar_url);
+      }
+
+      $user->tokens()->delete();
+      $user->delete();
+
+      return true;
+  }
+
   public function uploadAvatar($user, $file){
     $profile = $user->profile;
 
