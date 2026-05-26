@@ -6,7 +6,7 @@ use App\Http\Controllers\Api\V1\Auth\RegisterController;
 use App\Http\Controllers\Api\V1\Auth\LoginController;
 use App\Http\Controllers\Api\V1\Auth\LogoutController;
 use App\Http\Controllers\Api\V1\User\ProfileController;
-use App\Http\Controllers\Api\V1\User\ProjectController;
+use App\Http\Controllers\Api\V1\User\PortfolioItemController;
 use App\Http\Controllers\Api\V1\User\EducationController;
 use App\Http\Controllers\Api\V1\User\ExperienceController;
 use App\Http\Controllers\Api\V1\User\SocialLinkController;
@@ -67,21 +67,15 @@ Route::middleware('auth:sanctum', 'active.user')
         // upload avatar
         Route::post('/profile/avatar',[ProfileController::class, 'uploadAvatar']);
         Route::delete('/profile/avatar',[ProfileController::class, 'deleteAvatar']);
-        // user project
-        Route::get('/projects',[ProjectController::class, 'index']);
-        Route::post('/projects',[ProjectController::class, 'store']);
-        Route::get('/projects/{id}',[ProjectController::class, 'show']);
-        Route::patch('/projects/{id}',[ProjectController::class, 'update']);
-        Route::delete('/projects/{id}',[ProjectController::class, 'destroy']);
-        // upload cover project
-        Route::post('/projects/{id}/covers',[ProjectController::class, 'uploadCover']);
-
-        // project images
-        Route::get('/projects/{id}/images',[ProjectController::class, 'images']);
-        Route::patch('/projects/images/{imageId}',[ProjectController::class, 'updateImage']);
-        Route::delete('/projects/images/{imageId}',[ProjectController::class, 'deleteImage']);
-        // upload project images
-        Route::post('/projects/{id}/images',[ProjectController::class, 'uploadImages']);
+        // user portfolio items
+        Route::get('/portfolio-items',[PortfolioItemController::class, 'index']);
+        Route::post('/portfolio-items',[PortfolioItemController::class, 'store']);
+        Route::get('/portfolio-items/{id}',[PortfolioItemController::class, 'show']);
+        Route::patch('/portfolio-items/{id}',[PortfolioItemController::class, 'update']);
+        Route::delete('/portfolio-items/{id}',[PortfolioItemController::class, 'destroy']);
+        // upload cover for portfolio item
+        Route::post('/portfolio-items/{id}/covers',[PortfolioItemController::class, 'uploadCover']);
+        Route::post('/portfolio-items/{id}/gallery',[PortfolioItemController::class, 'uploadGallery']);
         // user education
         Route::get('/educations', [EducationController::class, 'index']);
         Route::post('/educations', [EducationController::class, 'store']);
