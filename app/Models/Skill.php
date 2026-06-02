@@ -7,10 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 class Skill extends Model
 {
     protected $fillable = [
-        'skill_name'
+        'skill_name',
+        'category_id'
     ];
 
-    public function profiles(){
+    public function category()
+    {
+        return $this->belongsTo(SkillCategory::class);
+    }
+
+    public function profiles()
+    {
         return $this->belongsToMany(
             Profile::class,'profile_skills'
         );

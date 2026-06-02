@@ -95,4 +95,9 @@ class ProfileLikeService
                     ),
         ];
     }
+
+    public function getTopLikedProfiles(int $limit = 6)
+    {
+        return $this->repo->getTopLikedProfiles($limit);
+    }
 }

@@ -46,10 +46,22 @@ class User extends Authenticatable
         return $this->hasOne(Profile::class);
     }
 
-    public function projects()
+    public function portfolio()
     {
-        return $this->hasMany(
-            Project::class
+        return $this->hasOne(
+            Portfolio::class
+        );
+    }
+
+    public function portfolioItems()
+    {
+        return $this->hasManyThrough(
+            PortfolioItem::class,
+            Portfolio::class,
+            'user_id',
+            'portfolio_id',
+            'id',
+            'id'
         );
     }
 

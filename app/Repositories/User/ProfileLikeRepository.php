@@ -64,4 +64,18 @@ class ProfileLikeRepository
                 $user->id
             )->exists();
     }
+
+    public function getTopLikedProfiles(int $limit = 6)
+    {
+        return Profile::with(['skills'])
+            ->where('is_public', true)
+            ->where('is_active', true)
+            ->whereHas('user', function ($query) {
+                $query->where('role', '!=', 'admin');
+            })
+            ->withCount('likes')
+            ->orderByDesc('likes_count')
+            ->limit($limit)
+            ->get();
+    }
 }

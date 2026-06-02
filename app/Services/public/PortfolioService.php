@@ -29,7 +29,7 @@ class PortfolioService
         return $profile->load([
             'user.educations',
             'user.experiences',
-            'user.projects',
+            'user.portfolio.items',
             'user.socialLinks',
             'user.certifications'
         ]);
@@ -66,6 +66,37 @@ class PortfolioService
                 $projectId
             );
     }
+
+    public function getPortfolioItems(
+        string $username
+    ) {
+        $profile =
+            $this->repo
+                ->findPublicProfile(
+                    $username
+                );
+
+        return $this->repo
+            ->getPortfolioItems($profile);
+    }
+
+    public function getPortfolioItemDetail(
+        string $username,
+        int $itemId
+    ) {
+        $profile =
+            $this->repo
+                ->findPublicProfile(
+                    $username
+                );
+
+        return $this->repo
+            ->findPortfolioItem(
+                $profile,
+                $itemId
+            );
+    }
+
     public function getCertificates(
         string $username
     ) {

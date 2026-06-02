@@ -26,7 +26,8 @@ class SkillService
     ) {
         $skill = $this->repo
             ->findOrCreateSkill(
-                $data['skill_name']
+                $data['skill_name'],
+                $data['category_id'] ?? null
             );
 
         $this->repo->attachSkill(

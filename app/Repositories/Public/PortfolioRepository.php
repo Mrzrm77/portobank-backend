@@ -24,8 +24,9 @@ class PortfolioRepository
         Profile $profile
     ) {
 
-        return $profile->user
-            ->projects()
+        $portfolio = $this->getPublicPortfolio($profile);
+
+        return $portfolio->items()
             ->latest()
             ->get();
 
@@ -36,8 +37,9 @@ class PortfolioRepository
         int $projectId
     ) {
 
-        return $profile->user
-            ->projects()
+        $portfolio = $this->getPublicPortfolio($profile);
+
+        return $portfolio->items()
             ->where('id', $projectId)
             ->firstOrFail();
 
@@ -53,6 +55,37 @@ class PortfolioRepository
             ->latest()
             ->get();
 
+    }
+
+    public function getPublicPortfolio(
+        Profile $profile
+    ) {
+        return $profile->user
+            ->portfolio()
+            ->where('is_published', true)
+            ->latest()
+            ->firstOrFail();
+    }
+
+    public function getPortfolioItems(
+        Profile $profile
+    ) {
+        $portfolio = $this->getPublicPortfolio($profile);
+
+        return $portfolio->items()
+            ->latest()
+            ->get();
+    }
+
+    public function findPortfolioItem(
+        Profile $profile,
+        int $itemId
+    ) {
+        $portfolio = $this->getPublicPortfolio($profile);
+
+        return $portfolio->items()
+            ->where('id', $itemId)
+            ->firstOrFail();
     }
 
     public function findCertificate(

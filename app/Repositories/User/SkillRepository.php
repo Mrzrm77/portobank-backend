@@ -14,11 +14,17 @@ class SkillRepository
             ->get();
     }
 
-    public function findOrCreateSkill(string $skillName)
+    public function findOrCreateSkill(string $skillName, ?int $categoryId = null)
     {
-        return Skill::firstOrCreate([
-            'skill_name' => trim($skillName),
-        ]);
+        return Skill::firstOrCreate(
+            ['skill_name' => trim($skillName)],
+            ['category_id' => $categoryId]
+        );
+    }
+
+    public function findSkill(int $skillId)
+    {
+        return Skill::findOrFail($skillId);
     }
 
     public function attachSkill($profile, $skill)

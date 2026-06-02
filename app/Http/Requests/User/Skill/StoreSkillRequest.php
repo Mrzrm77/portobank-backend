@@ -27,6 +27,11 @@ class StoreSkillRequest extends FormRequest
                 'required',
                 'string',
                 'max:255'
+            ],
+            'category_id' => [
+                'nullable',
+                'integer',
+                'exists:skill_categories,id'
             ]
         ];
     }

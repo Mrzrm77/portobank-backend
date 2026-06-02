@@ -14,7 +14,9 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'active.user' =>
-            \App\Http\Middleware\CheckSuspendedUser::class
+            \App\Http\Middleware\CheckSuspendedUser::class,
+            'admin.user' =>
+            \App\Http\Middleware\CheckAdminUser::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
