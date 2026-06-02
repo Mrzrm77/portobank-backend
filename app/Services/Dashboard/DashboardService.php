@@ -10,11 +10,11 @@ use App\Models\Profile;
 
 class DashboardService
 {
-    public function getStats($user): array
+    public function getStats($user = null): array
     {
         return [
             'global' => $this->getGlobalStats(),
-            'personal' => $this->getPersonalStats($user),
+            'personal' => $user ? $this->getPersonalStats($user) : null,
         ];
     }
 
@@ -48,8 +48,8 @@ class DashboardService
     {
         $portfolioViews = Portfolio::where('user_id', $user->id)->sum('view_count');
 
-        $profileIds = Profile::where('user_id', $user->id)->pluck('id');
-        $totalLikes = Like::whereIn('profile_id', $profileIds)->count();
+        $portfolioIds = Portfolio::where('user_id', $user->id)->pluck('id');
+        $totalLikes = Like::whereIn('portfolio_id', $portfolioIds)->count();
 
         $totalCertificates = Certification::where('user_id', $user->id)->count();
         $totalPortfolioItems = PortfolioItem::whereHas('portfolio', function ($query) use ($user) {

@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\Auth\ForgotPasswordController;
 use App\Http\Controllers\Api\Auth\ResetPasswordController;
 use App\Http\Controllers\Api\User\MessageController;
 use App\Http\Controllers\Api\SkillCategoryController;
+use App\Http\Controllers\Api\AppReviewController;
 use App\Http\Controllers\Api\ReportController;
 use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\Api\NotificationController;
@@ -43,6 +44,8 @@ Route::get('/profiles/{username}/likes', [LikeController::class, 'stats']);
 Route::get('/skill-categories', [SkillCategoryController::class, 'index']);
 Route::get('/profiles', [SearchController::class, 'index']);
 Route::get('/profiles/top-liked', [SearchController::class, 'topLiked']);
+Route::get('/app-reviews', [AppReviewController::class, 'index']);
+Route::get('/stats', [DashboardController::class, 'stats']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', LogoutController::class);
@@ -126,6 +129,9 @@ Route::middleware('auth:sanctum', 'active.user')
         Route::post('/skill-categories', [SkillCategoryController::class, 'store']);
         Route::patch('/skill-categories/{id}', [SkillCategoryController::class, 'update']);
         Route::delete('/skill-categories/{id}', [SkillCategoryController::class, 'destroy']);
+
+        // App Reviews
+        Route::post('/app-reviews', [AppReviewController::class, 'store']);
 
         // Reports
         Route::post('/reports', [ReportController::class, 'store']);

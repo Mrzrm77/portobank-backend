@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Like extends Model
 {
     protected $fillable = [
-        'profile_id',
+        'portfolio_id',
         'user_id'
     ];
 
-    public function profile(){
-        return $this->belongsTo(Profile::class);
+    public function portfolio(){
+        return $this->belongsTo(Portfolio::class);
     }
 
     public function user(){

@@ -33,6 +33,10 @@ class AuthService
                 $data
             );
 
+        if (method_exists($user, 'sendEmailVerificationNotification')) {
+            $user->sendEmailVerificationNotification();
+        }
+
         $token =
             $user->createToken(
                 'auth_token'
@@ -78,6 +82,10 @@ class AuthService
                 'Invalid credentials'
             );
 
+        }
+
+        if ($user->email_verified_at === null) {
+            abort(403, 'Please verify your email before logging in.');
         }
 
         $token =

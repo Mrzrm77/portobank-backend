@@ -18,7 +18,7 @@ class Profile extends Model
         'is_public'
     ];
 
-    protected $cast = [
+    protected $casts = [
         'is_active'=> 'boolean',
         'is_public'=> 'boolean',
     ];
@@ -33,6 +33,13 @@ class Profile extends Model
 
     public function likes()
     {
-        return $this->hasMany(Like::class);
+        return $this->hasManyThrough(
+            Like::class,
+            Portfolio::class,
+            'user_id',
+            'portfolio_id',
+            'user_id',
+            'id'
+        );
     }
 }

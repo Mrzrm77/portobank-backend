@@ -3,6 +3,7 @@
 namespace App\Repositories\User;
 
 use App\Models\Like;
+use App\Models\Portfolio;
 use App\Models\Profile;
 
 class ProfileLikeRepository
@@ -19,13 +20,20 @@ class ProfileLikeRepository
             ->firstOrFail();
     }
 
+    protected function getPortfolioForProfile(Profile $profile): Portfolio
+    {
+        return Portfolio::where('user_id', $profile->user_id)->firstOrFail();
+    }
+
     public function like(
         Profile $profile,
         $user
     ): Like {
+        $portfolio = $this->getPortfolioForProfile($profile);
+
         return Like::firstOrCreate([
-            'profile_id' => $profile->id,
-            'user_id'    => $user->id,
+            'portfolio_id' => $portfolio->id,
+            'user_id'      => $user->id,
         ]);
     }
 
@@ -33,9 +41,11 @@ class ProfileLikeRepository
         Profile $profile,
         $user
     ): void {
+        $portfolio = $this->getPortfolioForProfile($profile);
+
         Like::where(
-                'profile_id',
-                $profile->id
+                'portfolio_id',
+                $portfolio->id
             )->where(
                 'user_id',
                 $user->id
@@ -56,9 +66,11 @@ class ProfileLikeRepository
             return false;
         }
 
+        $portfolio = $this->getPortfolioForProfile($profile);
+
         return Like::where(
-                'profile_id',
-                $profile->id
+                'portfolio_id',
+                $portfolio->id
             )->where(
                 'user_id',
                 $user->id

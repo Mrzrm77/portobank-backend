@@ -13,8 +13,9 @@ class AuthRepository
 
         return User::create([
 
-            'email'=> $data['email'],
-            'password'=> $data['password']
+            'email' => $data['email'],
+            'password' => $data['password'],
+
         ]);
 
     }
@@ -26,11 +27,12 @@ class AuthRepository
 
         return Profile::create([
 
-            'user_id'=> $user->id,
+            'user_id' => $user->id,
+            'username' => $data['username'] ?? null,
+            'full_name' => $data['full_name'] ?? null,
+            'is_active' => true,
+            'is_public' => true,
 
-            'is_active'=> true,
-
-            'is_public'=> true
         ]);
 
     }

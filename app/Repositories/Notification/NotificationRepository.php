@@ -15,7 +15,7 @@ class NotificationRepository
             ->limit(5)
             ->get();
 
-        $likes = Like::whereHas('profile', function ($query) use ($userId) {
+        $likes = Like::whereHas('portfolio', function ($query) use ($userId) {
             $query->where('user_id', $userId);
         })
         ->where('user_id', '!=', $userId)
