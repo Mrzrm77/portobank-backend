@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\User\LikeController;
 use App\Http\Controllers\Api\Public\PublicPortfolioController;
 use App\Http\Controllers\Api\Auth\ForgotPasswordController;
 use App\Http\Controllers\Api\Auth\ResetPasswordController;
+use App\Http\Controllers\Api\Auth\VerifyEmailController;
 use App\Http\Controllers\Api\User\MessageController;
 use App\Http\Controllers\Api\SkillCategoryController;
 use App\Http\Controllers\Api\AppReviewController;
@@ -25,9 +26,19 @@ use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Api\Admin\PortfolioController as AdminPortfolioController;
 use App\Http\Controllers\Api\Admin\AdminLogController;
+use Illuminate\Support\Facades\Mail;
 
 // Auth
 Route::post('/register', RegisterController::class);
+Route::get('/email/verify/{id}/{hash}',VerifyEmailController::class)
+->middleware('signed')
+->name('verification.verify');
+
+Route::post('/email/verification-notification',ResendVerificationEmailController::class)
+->middleware([
+    'auth:sanctum',
+    'throttle:3,1'
+]);
 Route::post('/login', LoginController::class);
 Route::post('/forgot-password', ForgotPasswordController::class);
 Route::post('/reset-password', ResetPasswordController::class);
@@ -51,7 +62,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', LogoutController::class);
 });
 
-Route::middleware('auth:sanctum', 'active.user')
+Route::middleware('auth:sanctum', 'active.user', 'verified')
     ->group(function () {
         // auth
         Route::get('/me', function () {
