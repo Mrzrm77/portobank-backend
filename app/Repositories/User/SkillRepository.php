@@ -11,13 +11,21 @@ class SkillRepository
         return $user->profile
             ->skills()
             ->orderBy('skill_name')
-            ->get();
+            ->get()
+            ->map(function ($skill) {
+                return [
+                    'id' => $skill->id,
+                    'name' => $skill->skill_name,
+                    'category' => $skill->category->name,
+                    'level' => $skill->level
+                ];
+            });
     }
 
-    public function findOrCreateSkill(string $skillName, ?int $categoryId = null)
+    public function findOrCreateSkill(string $skillName, ?string $level = null, ?int $categoryId = null)
     {
         return Skill::firstOrCreate(
-            ['skill_name' => trim($skillName)],
+            ['skill_name' => trim($skillName), 'level' => $level],
             ['category_id' => $categoryId]
         );
     }

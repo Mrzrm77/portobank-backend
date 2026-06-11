@@ -3,15 +3,18 @@
 namespace App\Services\User;
 
 use App\Repositories\User\ProfileLikeRepository;
+use App\Repositories\Public\PortfolioRepository;
 
 class ProfileLikeService
 {
     protected $repo;
 
     public function __construct(
-        ProfileLikeRepository $repo
+        ProfileLikeRepository $repo,
+        PortfolioRepository $publicRepo
     ) {
         $this->repo = $repo;
+        $this->publicRepo = $publicRepo;
     }
 
     public function like(
@@ -73,31 +76,29 @@ class ProfileLikeService
 
     public function getStats(
         string $username,
-        $user = null
+        $viewer = null
     ): array {
-        $profile =
-            $this->repo
-                ->findPublicProfile(
-                    $username
-                );
-
+    
+        $profile = $this->publicRepo
+            ->findProfileForViewer(
+                $username,
+                $viewer
+            );
+    
         return [
-            'likes_count' =>
-                $this->repo
-                    ->getLikesCount(
-                        $profile
-                    ),
-            'is_liked' =>
-                $this->repo
-                    ->isLikedByUser(
-                        $profile,
-                        $user
-                    ),
+            'likes_count' => $this->repo
+                ->getLikesCount($profile),
+    
+            'is_liked' => $this->repo
+                ->isLikedByUser(
+                    $profile,
+                    $viewer
+                ),
         ];
     }
 
-    public function getTopLikedProfiles(int $limit = 6)
+    public function getTopLikedProfiles(int $limit = 6, ?int $viewerId = null)
     {
-        return $this->repo->getTopLikedProfiles($limit);
+        return $this->repo->getTopLikedProfiles($limit, $viewerId);
     }
 }

@@ -23,15 +23,20 @@ class StoreSkillRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'skill_name' => [
-                'required',
+            'name' => [
+                'nullable',
                 'string',
                 'max:255'
             ],
-            'category_id' => [
+            'category' => [
                 'nullable',
-                'integer',
-                'exists:skill_categories,id'
+                'string',
+                'max:255'
+            ],
+            'level' => [
+                'nullable',
+                'string',
+                'max:50'
             ]
         ];
     }

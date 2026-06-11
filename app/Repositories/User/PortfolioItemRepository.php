@@ -54,7 +54,7 @@ class PortfolioItemRepository
     {
         return Portfolio::firstOrCreate(
             ['user_id' => $user->id],
-            ['title' => 'Portfolio', 'description' => null, 'is_published' => false, 'view_count' => 0]
+            ['title' => 'Portfolio', 'description' => null, 'view_count' => 0]
         );
     }
 }

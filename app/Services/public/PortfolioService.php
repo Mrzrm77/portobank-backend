@@ -15,18 +15,21 @@ class PortfolioService
     }
 
     public function getPortfolio(
-        string $username
+        string $username,
+        $authUser = null
     ) {
 
         $profile =
             $this->repo
-                ->findPublicProfile(
-                    $username
+                ->findProfileForViewer(
+                    $username,
+                    $authUser
                 );
 
         $profile->skills;
 
         return $profile->load([
+            'skills.category',
             'user.educations',
             'user.experiences',
             'user.portfolio.items',

@@ -24,8 +24,14 @@ class StoreCertificationRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:255',
+            'certificate_file' => [
+            'required',
+            'image',
+            'mimes:jpg,jpeg,png,webp',
+            'max:4096',
+        ],
             'certificate_url' => 'nullable|string|max:255',
-            'Description'=> 'nullable'
+            'Description'=> 'nullable|string'
         ];
     }
 }

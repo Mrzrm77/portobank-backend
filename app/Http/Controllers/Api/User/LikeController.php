@@ -43,9 +43,11 @@ class LikeController extends Controller
         string $username,
         ProfileLikeService $service
     ) {
+        $viewer = auth('sanctum')->user();
+
         $data = $service->getStats(
             $username,
-            auth()->user()
+            $viewer
         );
 
         return response()->json([

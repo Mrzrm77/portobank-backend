@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\Public\PublicPortfolioController;
 use App\Http\Controllers\Api\Auth\ForgotPasswordController;
 use App\Http\Controllers\Api\Auth\ResetPasswordController;
 use App\Http\Controllers\Api\Auth\VerifyEmailController;
+use App\Http\Controllers\Api\Auth\ResendVerificationEmailController;
 use App\Http\Controllers\Api\User\MessageController;
 use App\Http\Controllers\Api\SkillCategoryController;
 use App\Http\Controllers\Api\AppReviewController;
@@ -26,6 +27,7 @@ use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Api\Admin\PortfolioController as AdminPortfolioController;
 use App\Http\Controllers\Api\Admin\AdminLogController;
+use App\Http\Controllers\Api\UploadController;
 use Illuminate\Support\Facades\Mail;
 
 // Auth
@@ -79,6 +81,10 @@ Route::middleware('auth:sanctum', 'active.user', 'verified')
         // upload avatar
         Route::post('/profile/avatar', [ProfileController::class, 'uploadAvatar']);
         Route::delete('/profile/avatar', [ProfileController::class, 'deleteAvatar']);
+        
+        // upload general project images
+        Route::post('/upload/project-image', [UploadController::class, 'projectImage']);
+
         // user portfolio items
         Route::get('/portfolio-items', [PortfolioItemController::class, 'index']);
         Route::post('/portfolio-items', [PortfolioItemController::class, 'store']);
@@ -100,7 +106,7 @@ Route::middleware('auth:sanctum', 'active.user', 'verified')
         Route::patch('/experiences/{id}', [ExperienceController::class, 'update']);
         Route::delete('/experiences/{id}', [ExperienceController::class, 'destroy']);
         
-        // user experience
+        // user social
         Route::get('/socials', [SocialLinkController::class, 'index']);
         Route::post('/socials', [SocialLinkController::class, 'store']);
         Route::patch('/socials/{id}', [SocialLinkController::class, 'update']);
@@ -111,7 +117,6 @@ Route::middleware('auth:sanctum', 'active.user', 'verified')
         Route::post('/certifications', [CertificationController::class, 'store']);
         Route::patch('/certifications/{id}', [CertificationController::class, 'update']);
         Route::delete('/certifications/{id}', [CertificationController::class, 'destroy']);
-        Route::post('/certifications/{id}/upload', [CertificationController::class, 'uploadImage']);
 
         // skill
         Route::get('/skills', [SkillController::class, 'index']);

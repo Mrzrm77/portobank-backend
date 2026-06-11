@@ -23,7 +23,9 @@ class PortfolioRepository
 
     public function updatePublication(Portfolio $portfolio, bool $isPublished): Portfolio
     {
-        $portfolio->update(['is_published' => $isPublished]);
+        if ($portfolio->user && $portfolio->user->profile) {
+            $portfolio->user->profile->update(['is_public' => $isPublished]);
+        }
 
         return $portfolio;
     }

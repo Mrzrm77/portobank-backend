@@ -18,12 +18,17 @@ class UpdatePortfolioItemRequest extends FormRequest
             'type' => ['sometimes', 'string', 'max:100'],
             'title' => ['sometimes', 'string', 'max:255'],
             'description' => ['sometimes', 'nullable', 'string'],
+            'year' => ['sometimes', 'required', 'integer'],
             'cover_url' => ['sometimes', 'nullable', 'string'],
             'external_link' => ['sometimes', 'nullable', 'url'],
             'tags' => ['sometimes', 'nullable', 'array'],
             'tags.*' => ['string', 'max:50'],
             'gallery_images' => ['sometimes', 'nullable', 'array'],
             'gallery_images.*' => ['url'],
+            'cover_file' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
+            'gallery_files' => ['nullable', 'array'],
+            'gallery_files.*' => ['image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
+            'empty_gallery'=>['nullable', 'string']
         ];
     }
 }

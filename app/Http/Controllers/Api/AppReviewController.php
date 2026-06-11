@@ -13,13 +13,25 @@ class AppReviewController extends Controller
         $limit = intval($request->query('limit', 20));
         $rating = intval($request->query('rating', 0));
 
-        $query = AppReview::query()->orderByDesc('created_at');
+        $query = AppReview::with(['user.profile'])
+            ->orderByDesc('created_at');
 
-        if ($rating > 0) {
+        if ($rating > 3) {
             $query->where('rating', $rating);
         }
 
-        $reviews = $query->limit(max($limit, 1))->get();
+        $reviews = $query->limit(max($limit, 1))->get()->map(function ($review) {
+            $review->profile = $review->user?->profile;
+            unset($review->user);
+            return $review;
+        });
+
+        $reviews->transform(function ($review) {
+            if ($review->profile && $review->profile->avatar_url) {
+                $review->profile->avatar_url = asset('storage/' . $review->profile->avatar_url);
+            }
+            return $review;
+        });
 
         return response()->json([
             'success' => true,

@@ -24,6 +24,12 @@ class UpdateCertificationRequest extends FormRequest
     {
         return [
             'title' => 'sometimes|string|max:255',
+            'certificate_file' => [
+            'nullable',
+            'image',
+            'mimes:jpg,jpeg,png,webp',
+            'max:4096',
+        ],
             'certificate_url' => 'sometimes|string|max:255',
             'description'=> 'nullable'
         ];

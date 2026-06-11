@@ -24,10 +24,17 @@ class SkillService
         $user,
         array $data
     ) {
+        $categoryId = null;
+        if (!empty($data['category'])) {
+            $cat = \App\Models\SkillCategory::firstOrCreate(['name' => $data['category']]);
+            $categoryId = $cat->id;
+        }
+
         $skill = $this->repo
             ->findOrCreateSkill(
-                $data['skill_name'],
-                $data['category_id'] ?? null
+                $data['name'],
+                $data['level'] ?? null,
+                $categoryId
             );
 
         $this->repo->attachSkill(

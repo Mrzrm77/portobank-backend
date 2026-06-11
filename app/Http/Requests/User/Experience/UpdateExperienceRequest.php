@@ -27,9 +27,9 @@ class UpdateExperienceRequest extends FormRequest
             'company_name' => 'sometimes|string|max:255',
             'location'=> 'sometimes|string|max:255',
             'start_date' => 'sometimes|date',
-            'end_date' => 'nullable|date',
+            'end_date' => 'sometimes|nullable|date',
             'is_current' => 'boolean',
-            'description' => 'nullable|max:255'
+            'description' => 'sometimes|max:255'
         ];
     }
 }

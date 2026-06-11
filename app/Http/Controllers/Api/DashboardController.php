@@ -9,9 +9,10 @@ class DashboardController extends Controller
 {
     public function stats(DashboardService $service)
     {
+        $user = auth('sanctum')->user();
         return response()->json([
             'success' => true,
-            'data' => $service->getStats(auth()->user()),
+            'data' => $service->getStats($user),
         ]);
     }
 }

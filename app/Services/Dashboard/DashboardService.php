@@ -27,7 +27,9 @@ class DashboardService
             })
             ->count();
 
-        $portfolios = Portfolio::where('is_published', true)->count();
+        $portfolios = Portfolio::whereHas('user.profile', function ($q) {
+            $q->where('is_public', true);
+        })->count();
 
         $professions = Profile::where('is_active', true)
             ->whereNotNull('profession')
@@ -46,15 +48,15 @@ class DashboardService
 
     public function getPersonalStats($user): array
     {
-        $portfolioViews = Portfolio::where('user_id', $user->id)->sum('view_count');
+        $portfolio = Portfolio::where('user_id', $user->id)
+            ->withCount('items')
+            ->first();
 
-        $portfolioIds = Portfolio::where('user_id', $user->id)->pluck('id');
-        $totalLikes = Like::whereIn('portfolio_id', $portfolioIds)->count();
+        $portfolioViews = $portfolio ? $portfolio->view_count : 0;
+        $totalPortfolioItems = $portfolio ? $portfolio->items_count : 0;
+        $totalLikes = $portfolio ? Like::where('portfolio_id', $portfolio->id)->count() : 0;
 
         $totalCertificates = Certification::where('user_id', $user->id)->count();
-        $totalPortfolioItems = PortfolioItem::whereHas('portfolio', function ($query) use ($user) {
-            $query->where('user_id', $user->id);
-        })->count();
 
         return [
             'portfolioViews' => $portfolioViews,

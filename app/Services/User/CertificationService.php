@@ -22,36 +22,14 @@ class CertificationService
 
     public function store(User $user, array $data)
     {
-        return $this->repo->create($user, $data);
-    }
-
-    public function uploadImage(
-        $user,
-        int $id,
-        $file
-    ) {
-        $certification = $this->repo
-            ->findById($user, $id);
-
-        // hapus file lama jika ada
-        if ($certification->certificate_url) {
-            Storage::disk('public')
-                ->delete($certification->certificate_url);
+        // Cek jika ada file gambar yang diupload
+        if (isset($data['certificate_file'])) {
+            $path = $data['certificate_file']->store('certificates', 'public');
+            $data['certificate_url'] = $path; // Set path ke database
+            unset($data['certificate_file']); // Hapus object file dari array data
         }
 
-        // simpan file baru
-        $path = $file->store(
-            'certificates',
-            'public'
-        );
-
-        return $this->repo
-            ->update(
-                $certification,
-                [
-                    'certificate_url' => $path,
-                ]
-            );
+        return $this->repo->create($user, $data);
     }
 
     public function update(User $user, $id, array $data)
@@ -60,6 +38,19 @@ class CertificationService
 
         if ($certification->user_id !== $user->id) {
             abort(403, 'Unauthorized');
+        }
+
+        // Cek jika ada file gambar baru yang diupload
+        if (isset($data['certificate_file'])) {
+            // Hapus file lama jika ada
+            if ($certification->certificate_url) {
+                Storage::disk('public')->delete($certification->certificate_url);
+            }
+
+            // Simpan file baru
+            $path = $data['certificate_file']->store('certificates', 'public');
+            $data['certificate_url'] = $path;
+            unset($data['certificate_file']);
         }
 
         return $this->repo->update($certification, $data);

@@ -20,11 +20,29 @@ class PortfolioRepository
 
     }
 
+    public function findProfileForViewer(string $username, $authUser = null)
+    {
+        $query = Profile::where('username', $username)->where('is_active', true);
+
+        if ($authUser && $authUser->profile && $authUser->profile->username === $username) {
+            // Viewer is the owner, do not filter by is_public
+        } else {
+            // Guest or other user, strictly require is_public = true
+            $query->where('is_public', true);
+        }
+
+        return $query->firstOrFail();
+    }
+
     public function getProjects(
         Profile $profile
     ) {
 
         $portfolio = $this->getPublicPortfolio($profile);
+
+        if (! $portfolio) {
+            return collect();
+        }
 
         return $portfolio->items()
             ->latest()
@@ -38,6 +56,10 @@ class PortfolioRepository
     ) {
 
         $portfolio = $this->getPublicPortfolio($profile);
+
+        if (! $portfolio) {
+            abort(404, 'Portfolio not found or not published.');
+        }
 
         return $portfolio->items()
             ->where('id', $projectId)
@@ -62,15 +84,18 @@ class PortfolioRepository
     ) {
         return $profile->user
             ->portfolio()
-            ->where('is_published', true)
             ->latest()
-            ->firstOrFail();
+            ->first();
     }
 
     public function getPortfolioItems(
         Profile $profile
     ) {
         $portfolio = $this->getPublicPortfolio($profile);
+
+        if (! $portfolio) {
+            return collect();
+        }
 
         return $portfolio->items()
             ->latest()
@@ -82,6 +107,10 @@ class PortfolioRepository
         int $itemId
     ) {
         $portfolio = $this->getPublicPortfolio($profile);
+
+        if (! $portfolio) {
+            abort(404, 'Portfolio not found or not published.');
+        }
 
         return $portfolio->items()
             ->where('id', $itemId)

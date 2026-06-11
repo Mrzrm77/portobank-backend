@@ -12,9 +12,20 @@ use App\Services\User\ProfileService;
 class ProfileController extends Controller
 {
     public function show(){
+        $profile = auth()->user()->profile;
+        if ($profile && $profile->avatar_url) {
+            $profile->avatar_url = asset('storage/' . $profile->avatar_url);
+        }
         return response()->json([
             'success' => true,
-            'data'=>auth()->user()->load('profile')
+            'data'=> $profile
+        ]);
+    }
+
+    public function editData(ProfileService $profileService){
+        return response()->json([
+            'success' => true,
+            'data' => $profileService->getEditData(auth()->user())
         ]);
     }
 

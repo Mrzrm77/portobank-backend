@@ -22,8 +22,8 @@ class UserRepository
         if (! empty($filters['search'])) {
             $search = trim($filters['search']);
             $query->where(function ($query) use ($search) {
-                $query->where('full_name', 'ilike', "%{$search}%")
-                    ->orWhere('username', 'ilike', "%{$search}%");
+                $query->where('full_name', 'LIKE', "%{$search}%")
+                    ->orWhere('username', 'LIKE', "%{$search}%");
             });
         }
 

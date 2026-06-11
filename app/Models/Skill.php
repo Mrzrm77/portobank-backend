@@ -8,6 +8,7 @@ class Skill extends Model
 {
     protected $fillable = [
         'skill_name',
+        'level',
         'category_id'
     ];
 
